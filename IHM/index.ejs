@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion note d'étudiant</title>
+    <link rel="shortcut icon"  href="/img/vue-js.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src = "https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<!--**************NAVIGATION****************-->
+
+<body>
+    <div class="container">
+        <div class="navigation">
+            <ul>
+
+                <div class="toogle">
+                    <ion-icon name = "menu-outline"></ion-icon></span>
+              </div>
+
+                <div class="search">
+                    <input type="text" placeholder="search ..." id="search">    
+                    <ion-icon name = "search-outline" class="ico">
+
+                </div>
+                <li>
+                    <a href="#" id="acc">
+                        <span class="icon"><ion-icon name = "home-outline"></ion-icon></span>
+                        <span class="title">Accueil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="histogramme">
+                        <span class="icon"><ion-icon name = "stats-chart-outline"></ion-icon></span>
+                        <span class="title">Histogramme</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name = "log-out-outline"></span>
+                        <span class="title">Se Deconnecter</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+
+    <!--********************** MAIN *************************-->
+    
+
+                <div class="topbar">
+                    <div>
+
+                    </div>
+                    <div class="user">
+                        <img src="/img/all.jpg" alt="" title="Profil">
+                    </div>
+                </div>
+
+            <div class="main1">
+                <div class="con1">
+                    <div class="con">
+                        <div class="vert">
+                            <div class="rectangle"></div>
+                            <div class="legende">   Elève admis</div>
+                        </div>
+                        <div class="rouge">
+                            <div class="rectangle1"></div>
+                            <div class="legende">   Elève non admis</div>
+                        </div>
+                    </div>
+
+                    <div class="hist">
+                            <div class = "chart">
+                            <canvas id ="barCanvas" aria-label = "chart" role = "img"></canvas>
+                            </div>
+                    </div>
+                </div>
+            </div>
+                
+              
+<div class="main">
+                <!-- ********************** Order List ********************-->
+                <div class="details">
+                             <div class="recentOrders">
+                                        <div class="cardheader">
+                                            <h2>Note etudiants</h2>
+                                            <a href="#" class="btn" id="man"><span> <ion-icon name = "add-outline"></ion-icon></span> Ajout</a>
+                                        </div>
+                                        <div class="matable">
+                                            <table id="tableNote">
+                                                <thead>
+                                                    <tr>
+                                                        <td>Matricule</td>
+                                                        <td>Nom</td>
+                                                        <td>Mathématique</td>
+                                                        <td>Physique</td>
+                                                        <td>Moyenne</td>
+                                                        <td colspan="2">Action</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tb1">
+                                                    <% for (i=0; i<resultat.length ;i++)  {   %>
+                                                        <tr>
+                                                            <td><%= resultat[i].numEt %></td>
+                                                            <td><%= resultat[i].nom %></td>
+                                                            <td><%= resultat[i].note_math %></td>
+                                                            <td><%= resultat[i].note_phys %></td>
+                                                            <td><%= resultat[i].Moyenne %></td>
+                                                            <td><button id="act1" onclick="Del('<%= resultat[i].idEtudiant %>')"><ion-icon name = "trash-outline"></ion-icon></button></td>
+                                                            <td><button id="act2" onclick="remplir('<%= resultat[i].idEtudiant %>','<%= resultat[i].numEt %>','<%= resultat[i].nom %>','<%= resultat[i].note_math %>','<%= resultat[i].note_phys %>','/data/uploads/<%= resultat[i].image %>')"><ion-icon name = "create-outline"></ion-icon></button></td>
+                                                        </tr>                         
+                        
+                                                        <%
+                                                    } 
+                                                        %>
+                                                </tbody>
+                                                
+                                            </table>
+                                        </div>
+                                        <div class="cardPrincipale">
+                                        <div class="card1">
+                                                <div class="card">
+                                                    <span class="numbers" id="noteGen"></span><br>
+                                                    <span class="cardName">Moyenne générale</span>
+                                                </div>
+                                                <div class="card">
+                                                    <span class="numbers" id="maxValue"></span><br>
+                                                    <span class="cardName">Moyenne maximum</span>
+                                                </div>
+                                                <div class="card">
+                                                    <span class="numbers" id="minValue"></span><br>
+                                                    <span class="cardName">Moyenne minimum</span>
+                                                </div>
+                                       </div>     
+                                       <div class="card2">
+                                        <div></div>
+                                        <div class="card">
+                                            <span class="numbers" id="eleveAdmis"></span><br>
+                                            <span class="cardName">Elève admis</span>
+                                        </div>
+                                        <div class="card">
+                                            <span class="numbers" id="eleveRed"></span><br>
+                                            <span class="cardName">Elève redoublant</span>
+                                        </div>
+                                        <div></div>
+                                        </div>  
+                                    </div>    
+                                    
+                                    <ion-icon name = "chevron-down-outline" class="affiche"></ion-icon>
+                                    <ion-icon name = "chevron-up-outline" class="affiche" id="affiche2" style="display: none;"></ion-icon>
+                            </div>
+                            
+
+                    
+                    <div class="nouveau">
+                        <div class="cardheader">
+                            <h2>Profils étudiants</h2>
+                        </div>
+                        <div class="contourner">
+                        <% for (i=0; i<resultat.length ;i++)  {   %>
+                        <div class="contour">
+                        <table>
+                            
+                            <tr>
+                                <td width = 60px>
+                                    <div class="imgg">
+                                        <img src="/data/uploads/<%= resultat[i].image %>" alt="">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <h4><%= resultat[i].numEt %><br><span><%= resultat[i].nom %> </span></h4>
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                        </table>
+                    </div>
+                    <%
+                } 
+                    %>
+                    </div>
+
+
+                </div>
+               
+
+                </div>
+                <div class="cardBox">
+                    <div class="card">
+                        <div>
+                            <div class="numbers" id="noteGen"></div>
+                            <div class="cardName" >Moyenne générale</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name = "newspaper-outline"></ion-icon>
+                        </div>
+                    </div>
+                        <div class="card">
+                            <div>
+                                <div class="numbers" id="maxValue"></div>
+                                <div class="cardName">Moyenne maximum</div>
+                            </div>
+                            <div class="iconBx">
+                                <ion-icon name = "trending-up-outline"></ion-icon>
+                            </div>
+                        </div>
+            
+                            <div class="card">
+                                <div>
+                                    <div class="numbers" id="minValue"></div>
+                                    <div class="cardName">Moyenne minimum</div>
+                                </div>
+                                <div class="iconBx">
+                                    <ion-icon name = "trending-down-outline"></ion-icon>
+                                </div>
+                            </div>
+            
+                            <div class="card">
+                                <div>
+                                    <div class="numbers" id="eleveAdmis"></div>
+                                    <div class="cardName">Elève admis</div>
+                                </div>
+                                <div class="iconBx">
+                                    <ion-icon name = "people-outline"></ion-icon>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div>
+                                    <div class="numbers" id="eleveRed"></div>
+                                    <div class="cardName">Elève redoublant</div>
+                                </div>
+                                <div class="iconBx" >
+                                    <ion-icon name = "people-outline" ></ion-icon>
+                                </div>
+                            </div>
+                
+                </div>
+
+
+               
+
+
+</div>
+</div>
+ <!-- ---------------------- FORMULAIRE D'AJOUT --------------------------->
+ <div class="contenu">
+  
+  
+    <div class="ajout">
+        <div class="champ">
+            <div class="allo">
+                <div> </div>
+                <div class="head">
+                    <ion-icon name = "close-outline"  id="close_btn"></ion-icon>             
+                </div>
+            </div>
+
+
+        <div class="formulaire">
+                <form action="ajout" method="post" enctype="multipart/form-data">
+                    <div class="image">
+                        <label for="imageUpload">
+                            <div id="prof"><img src="/img/profil.png" alt="" id="defaultImg" ></div>
+                            <div id="icon"><ion-icon name="camera"></ion-icon></div></label>
+                        <input type="file" name="imageUpload" id="imageUpload" onchange="imageChange(event)">       
+                    </div>
+                
+                    <input type="hidden" name="id" id="id">
+                    <div class="in">
+                        <label for="nom">Matricule :</label><br>
+                        <input type="text" name="matr" required class="color_b"  id="matr">
+                    </div>
+                    <div class="in">
+                        <label for="prenom">Nom :</label><br>
+                        <input type="text" name="nom" required class="color_b"  id="nom">
+                    </div>
+                    <div class="in">
+                        <label for="numero">Note Mathématique :</label><br>
+                        <input type="number" name="math" required class="color_b" id="math">
+                    </div>
+                    <div class="in">
+                        <label for="numero">Note Physique :</label><br>
+                        <input type="number" name="phys" required class="color_b" id="phys">
+                    </div>
+                    <div class="ajout_btn">
+                        <div></div>
+                        <button class="add" >Enregistrer</button>
+                    </div>  
+                    
+                </form>  
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Boite de dialogue-->
+
+<div class="boite">
+    <div class="contenuBoite">
+        <div class="messageBoite">
+            Êtes-vous sûr de vouloir supprimer cet étudiant?
+        </div>
+        <div class="boutonBoite">
+            <input type="hidden" id="id1">
+            <button id="confirmDelete">Ok</button>
+            <button id="cancelDelete">Anuler</button>
+        </div>
+    </div>
+
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    
+</body>
+</html>
