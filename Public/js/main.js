@@ -29,6 +29,7 @@ ico.addEventListener('click', () => {
   main1.classList.toggle("active1");
   search.classList.toggle("active");
   ico.classList.toggle("active");
+  legende.classList.remove('load');
 
 });
 toogle.addEventListener('click', () => {
